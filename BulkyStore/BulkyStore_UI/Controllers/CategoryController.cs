@@ -35,6 +35,13 @@ namespace BulkyStore_UI.Controllers
 					ModelState.AddModelError("Name", "Name and Display order not be equal.");
 					return View(category);
 				}
+				var isExists = _context.Categories.
+					FirstOrDefault(x=>x.Name.ToLower()==category.Name.ToLower());
+				if (isExists!=null)
+				{
+                    ModelState.AddModelError("Name", "Name must be unique.");
+                    return View(category);
+                }
 				_context.Categories.Add(category);
 				_context.SaveChanges();
 				TempData["success"] = "Category create successfully";
@@ -69,7 +76,14 @@ namespace BulkyStore_UI.Controllers
 					ModelState.AddModelError("Name", "Name and Display order not be equal.");
 					return View(category);
 				}
-				_context.Categories.Update(category);
+                var isExists = _context.Categories.
+                    FirstOrDefault(x => x.Name.ToLower() == category.Name.ToLower() && x.Id != category.Id);
+                if (isExists != null)
+                {
+                    ModelState.AddModelError("Name", "Name must be unique.");
+                    return View(category);
+                }
+                _context.Categories.Update(category);
 				_context.SaveChanges();
 				TempData["success"] = "Category update successfully";
 				return RedirectToAction("Index");
