@@ -15,4 +15,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BulkyStore_DataAccess\BulkyStore_DataAccess.csproj" />
+    <ProjectReference Include="..\BulkyStore_Models\BulkyStore_Models.csproj" />
+  </ItemGroup>
+
 </Project>

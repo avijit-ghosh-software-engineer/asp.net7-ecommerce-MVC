@@ -1,4 +1,4 @@
-using BulkyStore_UI.Data;
+using BulkyStore_DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

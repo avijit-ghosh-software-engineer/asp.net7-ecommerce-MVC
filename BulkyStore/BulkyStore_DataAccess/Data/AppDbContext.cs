@@ -1,7 +1,7 @@
-﻿using BulkyStore_UI.Models;
+﻿using BulkyStore_Models.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace BulkyStore_UI.Data
+namespace BulkyStore_DataAccess.Data
 {
 	public class AppDbContext : DbContext
 	{

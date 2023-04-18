@@ -4,7 +4,7 @@
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace BulkyStore_UI.Migrations
+namespace BulkyStore_DataAccess.Migrations
 {
     /// <inheritdoc />
     public partial class seedcategorytbl : Migration

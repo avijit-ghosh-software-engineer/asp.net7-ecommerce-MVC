@@ -1,5 +1,5 @@
-﻿using BulkyStore_UI.Data;
-using BulkyStore_UI.Models;
+﻿using BulkyStore_DataAccess.Data;
+using BulkyStore_Models.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
