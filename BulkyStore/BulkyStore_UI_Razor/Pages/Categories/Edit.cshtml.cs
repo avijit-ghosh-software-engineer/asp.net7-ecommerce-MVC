@@ -1,8 +1,7 @@
-using BulkyStore_UI_Razor.Data;
-using BulkyStore_UI_Razor.Models;
+using BulkyStore_DataAccess.Data;
+using BulkyStore_Models.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 
 namespace BulkyStore_UI_Razor.Pages.Categories
 {
