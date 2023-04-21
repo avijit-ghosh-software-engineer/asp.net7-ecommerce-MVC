@@ -8,7 +8,7 @@ namespace BulkyStore_DataAccess.Repository
         private AppDbContext _db;
         public ICategoryRepository Category { get; private set; }
         //public ICompanyRepository Company { get; private set; }
-        //public IProductRepository Product { get; private set; }
+        public IProductRepository Product { get; private set; }
         //public IShoppingCartRepository ShoppingCart { get; private set; }
         //public IApplicationUserRepository ApplicationUser { get; private set; }
         //public IOrderHeaderRepository OrderHeader { get; private set; }
@@ -21,7 +21,7 @@ namespace BulkyStore_DataAccess.Repository
             //ApplicationUser = new ApplicationUserRepository(_db);
             //ShoppingCart = new ShoppingCartRepository(_db);
             Category = new CategoryRepository(_db);
-            //Product = new ProductRepository(_db);
+            Product = new ProductRepository(_db);
             //Company = new CompanyRepository(_db);
             //OrderHeader = new OrderHeaderRepository(_db);
             //OrderDetail = new OrderDetailRepository(_db);
