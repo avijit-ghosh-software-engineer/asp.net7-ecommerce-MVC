@@ -1,18 +1,14 @@
 ﻿using BulkyStore_DataAccess.Repository.IRepository;
 using BulkyStore_Models.Models;
 using BulkyStore_Models.ViewModels;
-using BulkyStore_Utility.GetLists;
+using BulkyStore_Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Generic;
-using System.Data;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BulkyStore_UI.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Authorize(Roles = SD.Role_Admin)]
+    [Authorize(Roles = SD.Role_Admin)]
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

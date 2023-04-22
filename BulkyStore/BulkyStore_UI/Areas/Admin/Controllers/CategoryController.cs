@@ -1,10 +1,13 @@
 ﻿using BulkyStore_DataAccess.Repository.IRepository;
 using BulkyStore_Models.Models;
+using BulkyStore_Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BulkyStore_UI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

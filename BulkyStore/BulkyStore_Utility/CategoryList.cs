@@ -1,7 +1,7 @@
 ﻿using BulkyStore_DataAccess.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace BulkyStore_Utility.GetLists
+namespace BulkyStore_Utility
 {
     public static class CategoryList
     {
@@ -22,7 +22,7 @@ namespace BulkyStore_Utility.GetLists
                 {
                     Text = x.Name,
                     Value = x.Id.ToString(),
-                    Selected = (x.Id == categoryId ? true : false)
+                    Selected = x.Id == categoryId ? true : false
                 });
             }
 
