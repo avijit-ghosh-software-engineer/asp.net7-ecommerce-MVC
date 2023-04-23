@@ -1,13 +1,13 @@
-﻿@model Product
+﻿@model ShoppingCart
 
 <form method="post">
-    <input hidden asp-for="@Model.Id" />
+    <input hidden asp-for="ProductId" />
     <div class="card shadow border-0 mt-4 mb-4">
         <div class="card-header bg-secondary bg-gradient text-light py-4">
             <div class="row">
                 <div class="col-12 text-center">
-                    <h3 class="text-white text-uppercase">@Model.Title</h3>
-                    <p class="text-white-50 fw-semibold mb-0">by @Model.Author</p>
+                    <h3 class="text-white text-uppercase">@Model.Product.Title</h3>
+                    <p class="text-white-50 fw-semibold mb-0">by @Model.Product.Author</p>
                 </div>
             </div>
         </div>
@@ -25,12 +25,12 @@
 
 
 
-                        @if (Model.ImageUrl != null) {
+                        @if (Model.Product.ImageUrl != null) {
                             <div id="carouselExampleIndicators" class="carousel  slide" data-bs-ride="carousel">
                                 <div class="carousel-indicators">
 
                                     @foreach(var imageWithIndex in 
-                                    Model.ImageUrl
+                                    Model.Product.ImageUrl
                                    .Select((image, index) => new { Image = image, Index = index })) {
                                         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="@imageWithIndex.Index" 
                                         class="@(imageWithIndex.Index==0?"active":"")" aria-current="true" aria-label="Slide 1"></button>
@@ -46,7 +46,7 @@
                                             </div>
                                        }*@
                                     <div class="carousel-item active">
-                                        <img src="@Model.ImageUrl" class="d-block w-100" alt="..."/>
+                                        <img src="@Model.Product.ImageUrl" class="d-block w-100" alt="..."/>
                                     </div>
                                 </div>
                                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -64,16 +64,16 @@
                     <div class="col-12 col-lg-6 offset-lg-1">
 
                         <div class="col-12 col-md-6 pb-4">
-                            <span class="badge">@Model.Category.Name</span>
+                            <span class="badge">@Model.Product.Category.Name</span>
                         </div>
                         <div class="row ps-2">
-                            <h6 class="text-dark text-opacity-50 ">ISBN : @Model.ISBN</h6>
+                            <h6 class="text-dark text-opacity-50 ">ISBN : @Model.Product.ISBN</h6>
                         </div>
                         <div class="row ps-2">
                             <h6 class="text-dark text-opacity-50  pb-2">
                                 List Price:
                                 <span class="text-decoration-line-through">
-                                    @Model.ListPrice.ToString("c")
+                                    @Model.Product.ListPrice.ToString("c")
                                 </span>
                             </h6>
                         </div>
@@ -99,15 +99,15 @@
                                 <div>@Model.Price.ToString("c")</div>
                             </div>
                             <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
-                                <div>@Model.Price50.ToString("c")</div>
+                                <div>@Model.Product.Price50.ToString("c")</div>
                             </div>
                             <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
-                                <div>@Model.Price100.ToString("c")</div>
+                                <div>@Model.Product.Price100.ToString("c")</div>
                             </div>
                         </div>
                         <div class="row pl-2 my-3">
                             <p class="text-secondary lh-sm">
-                                @Html.Raw(Model.Description)
+                                @Html.Raw(Model.Product.Description)
                             </p>
                         </div>
                         <div class="row pl-2 mb-3">
@@ -116,8 +116,8 @@
                                     <span class="input-group-text bg-primary text-white border-0 fw-semibold" id="inputGroup-sizing-default">
                                         Count
                                     </span>
-                                    @*<input asp-for="Count" type="number" value="1" class="form-control text-end"
-                                           aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />*@
+                                    <input asp-for="Count" type="number" value="1" class="form-control text-end"
+                                           aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
 
                                 </div>
                             </div>
