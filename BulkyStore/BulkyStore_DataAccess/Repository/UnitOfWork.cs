@@ -11,8 +11,8 @@ namespace BulkyStore_DataAccess.Repository
         public IProductRepository Product { get; private set; }
         public IShoppingCartRepository ShoppingCart { get; private set; }
         public IApplicationUserRepository ApplicationUser { get; private set; }
-        //public IOrderHeaderRepository OrderHeader { get; private set; }
-        //public IOrderDetailRepository OrderDetail { get; private set; }
+        public IOrderHeaderRepository OrderHeader { get; private set; }
+        public IOrderDetailRepository OrderDetail { get; private set; }
         //public IProductImageRepository ProductImage { get; private set; }
         public UnitOfWork(AppDbContext db)
         {
@@ -23,8 +23,8 @@ namespace BulkyStore_DataAccess.Repository
             Category = new CategoryRepository(_db);
             Product = new ProductRepository(_db);
             Company = new CompanyRepository(_db);
-            //OrderHeader = new OrderHeaderRepository(_db);
-            //OrderDetail = new OrderDetailRepository(_db);
+            OrderHeader = new OrderHeaderRepository(_db);
+            OrderDetail = new OrderDetailRepository(_db);
         }
 
         public void Save()
