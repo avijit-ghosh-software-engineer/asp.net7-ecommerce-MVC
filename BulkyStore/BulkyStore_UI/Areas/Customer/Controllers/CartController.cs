@@ -165,10 +165,12 @@ namespace BulkyStore_UI.Areas.Customer.Controllers
 
 
                 var service = new SessionService();
-                Session session = service.Create(options);
-                _unitOfWork.OrderHeader.UpdateStripePaymentID(ShoppingCartVM.OrderHeader.Id, session.Id, session.PaymentIntentId);
-                _unitOfWork.Save();
-                Response.Headers.Add("Location", session.Url);
+				//Session session = service.Create(options);
+				var sessionId = Guid.NewGuid().ToString();
+				//_unitOfWork.OrderHeader.UpdateStripePaymentID(ShoppingCartVM.OrderHeader.Id, session.Id, session.PaymentIntentId);
+				_unitOfWork.OrderHeader.UpdateStripePaymentID(ShoppingCartVM.OrderHeader.Id, sessionId, sessionId);
+				_unitOfWork.Save();
+                //Response.Headers.Add("Location", session.Url);
                 return new StatusCodeResult(303);
 
             }
@@ -184,12 +186,12 @@ namespace BulkyStore_UI.Areas.Customer.Controllers
 			{
 				//this is an order by customer
 
-				var service = new SessionService();
-				Session session = service.Get(orderHeader.SessionId);
-
-				if (session.PaymentStatus.ToLower() == "paid")
+				//var service = new SessionService();
+				//Session session = service.Get(orderHeader.SessionId);
+				var sessionId = Guid.NewGuid().ToString();
+				//if (session.PaymentStatus.ToLower() == "paid")
 				{
-					_unitOfWork.OrderHeader.UpdateStripePaymentID(id, session.Id, session.PaymentIntentId);
+					_unitOfWork.OrderHeader.UpdateStripePaymentID(id, sessionId, sessionId);
 					_unitOfWork.OrderHeader.UpdateStatus(id, SD.StatusApproved, SD.PaymentStatusApproved);
 					_unitOfWork.Save();
 				}
