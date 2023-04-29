@@ -1,38 +1,17 @@
-using BulkyStore_DataAccess.Data;
 using BulkyStore_DataAccess.Repository;
 using BulkyStore_DataAccess.Repository.IRepository;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using BulkyStore_Utility;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Stripe;
+using BulkyStore_Utility.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-{
-	options.UseSqlServer(builder.Configuration.GetConnectionString("BulkyStoreConnectionString"));
-});
+builder.ServiceInjects();
 
-builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
-
-builder.Services.AddIdentity<IdentityUser,IdentityRole>()
-	.AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
-
-builder.Services.ConfigureApplicationCookie(options => {
-    options.LoginPath = $"/Identity/Account/Login";
-    options.LogoutPath = $"/Identity/Account/Logout";
-    options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
-});
-
-builder.Services.AddSession(options => {
-    options.IdleTimeout = TimeSpan.FromMinutes(100);
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
-});
 
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
@@ -56,7 +35,6 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
-
 app.MapRazorPages();
 app.MapControllerRoute(
 	name: "default",
