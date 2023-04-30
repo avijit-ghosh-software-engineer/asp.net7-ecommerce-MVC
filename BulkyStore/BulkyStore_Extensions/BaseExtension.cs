@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 
-namespace BulkyStore_Utility.Extensions
+namespace BulkyStore_Extensions
 {
     public static class BaseExtension
     {

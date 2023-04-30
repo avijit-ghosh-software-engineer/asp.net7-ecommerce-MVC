@@ -4,6 +4,7 @@ using BulkyStore_Models.ViewModels;
 using BulkyStore_Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BulkyStore_UI.Areas.Admin.Controllers
 {
@@ -30,7 +31,7 @@ namespace BulkyStore_UI.Areas.Admin.Controllers
             if (id == null || id == 0)
             {
                 ProductVM data = new();
-                data.CategoryList = CategoryList.GetCategoryList(_unitOfWork);
+                data.CategoryList = GetCategoryList(_unitOfWork);
                 return View(data);
             }
             else
@@ -48,7 +49,7 @@ namespace BulkyStore_UI.Areas.Admin.Controllers
                 ProductVM data = new()
                 {
                     Product = product,
-                    CategoryList = CategoryList.GetCategoryList(_unitOfWork, product.CategoryId)
+                    CategoryList = GetCategoryList(_unitOfWork, product.CategoryId)
                 };
 
                 return View(data);
@@ -59,7 +60,7 @@ namespace BulkyStore_UI.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Upsert(int? id, ProductVM productVM, IFormFile? file)
         {
-            productVM.CategoryList = CategoryList.GetCategoryList(_unitOfWork, categoryId: productVM.Product.CategoryId);
+            productVM.CategoryList = GetCategoryList(_unitOfWork, categoryId: productVM.Product.CategoryId);
             if (ModelState.IsValid)
             {
                 
@@ -136,7 +137,7 @@ namespace BulkyStore_UI.Areas.Admin.Controllers
         public IActionResult Create()
         {
             ProductVM data = new();
-            data.CategoryList = CategoryList.GetCategoryList(_unitOfWork);
+            data.CategoryList = GetCategoryList(_unitOfWork);
             //ViewBag.Categories = categories;
             //ViewData["Categories"] = categories;
 
@@ -147,7 +148,7 @@ namespace BulkyStore_UI.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(ProductVM productVM)
         {
-            productVM.CategoryList = CategoryList.GetCategoryList(_unitOfWork,categoryId:productVM.Product.CategoryId);
+            productVM.CategoryList = GetCategoryList(_unitOfWork,categoryId:productVM.Product.CategoryId);
             if (ModelState.IsValid)
             {
                 var isExists = _unitOfWork.Product.Get(x => x.Title.ToLower() == productVM.Product.Title.ToLower());
@@ -180,7 +181,7 @@ namespace BulkyStore_UI.Areas.Admin.Controllers
             ProductVM data = new()
             {
                 Product = product,
-                CategoryList = CategoryList.GetCategoryList(_unitOfWork,product.CategoryId)
+                CategoryList = GetCategoryList(_unitOfWork,product.CategoryId)
             };
 
             return View(data);
@@ -190,7 +191,7 @@ namespace BulkyStore_UI.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(ProductVM productVM)
         {
-            productVM.CategoryList = CategoryList.GetCategoryList(_unitOfWork, productVM.Product.CategoryId);
+            productVM.CategoryList = GetCategoryList(_unitOfWork, productVM.Product.CategoryId);
             if (ModelState.IsValid)
             {
                 var isExists = _unitOfWork.Product
@@ -287,5 +288,30 @@ namespace BulkyStore_UI.Areas.Admin.Controllers
             return Json(new { success = true, message = "Delete Successful" });
         }
         #endregion
+
+        [NonAction]
+        public static IEnumerable<SelectListItem> GetCategoryList(IUnitOfWork unitOfWork, int? categoryId = 0)
+        {
+            IEnumerable<SelectListItem> data = null;
+            if (categoryId == 0)
+            {
+                data = unitOfWork.Category.GetAll().Select(x => new SelectListItem
+                {
+                    Text = x.Name,
+                    Value = x.Id.ToString()
+                });
+            }
+            else
+            {
+                data = unitOfWork.Category.GetAll().Select(x => new SelectListItem
+                {
+                    Text = x.Name,
+                    Value = x.Id.ToString(),
+                    Selected = x.Id == categoryId ? true : false
+                });
+            }
+
+            return data;
+        }
     }
 }

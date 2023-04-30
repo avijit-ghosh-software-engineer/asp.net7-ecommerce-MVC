@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BulkyStore_Utility.Extensions
+namespace BulkyStore_Extensions
 {
     public static class AuthenticationExtension
     {
         public static void AuthenticationInject(this WebApplicationBuilder builder)
         {
-            builder.Services.AddAuthentication().AddFacebook(option => {
+            builder.Services.AddAuthentication().AddFacebook(option =>
+            {
                 option.AppId = "193813826680436";
                 option.AppSecret = "8fc42ae3f4f2a4986143461d4e2da919";
             });

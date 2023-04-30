@@ -7,11 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkyStore_UI", "BulkyStore
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkyStore_UI_Razor", "BulkyStore_UI_Razor\BulkyStore_UI_Razor.csproj", "{24A0EB5E-8E60-492D-B38A-E6C4ADFC9950}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkyStore_Utility", "BulkyStore_Utility\BulkyStore_Utility.csproj", "{B13E10DB-A4B2-4E17-83F2-2FA1CF15CBFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkyStore_Utility", "BulkyStore_Utility\BulkyStore_Utility.csproj", "{B13E10DB-A4B2-4E17-83F2-2FA1CF15CBFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkyStore_Models", "BulkyStore_Models\BulkyStore_Models.csproj", "{CD03E1E8-DC24-44E1-BFE2-0142162C587E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkyStore_Models", "BulkyStore_Models\BulkyStore_Models.csproj", "{CD03E1E8-DC24-44E1-BFE2-0142162C587E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkyStore_DataAccess", "BulkyStore_DataAccess\BulkyStore_DataAccess.csproj", "{FC669451-7ECF-49F8-9FAE-3D2B152E376E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkyStore_DataAccess", "BulkyStore_DataAccess\BulkyStore_DataAccess.csproj", "{FC669451-7ECF-49F8-9FAE-3D2B152E376E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkyStore_Extensions", "BulkyStore_Extensions\BulkyStore_Extensions.csproj", "{6423F605-E672-449F-99F5-7CB4E61B3CBD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{FC669451-7ECF-49F8-9FAE-3D2B152E376E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC669451-7ECF-49F8-9FAE-3D2B152E376E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC669451-7ECF-49F8-9FAE-3D2B152E376E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6423F605-E672-449F-99F5-7CB4E61B3CBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6423F605-E672-449F-99F5-7CB4E61B3CBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6423F605-E672-449F-99F5-7CB4E61B3CBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6423F605-E672-449F-99F5-7CB4E61B3CBD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

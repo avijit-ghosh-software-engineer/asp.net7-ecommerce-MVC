@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using BulkyStore_Utility;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BulkyStore_Utility.Extensions
+namespace BulkyStore_Extensions
 {
     public static class StripePaymentExtension
     {

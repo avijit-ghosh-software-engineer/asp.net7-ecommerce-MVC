@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BulkyStore_DataAccess\BulkyStore_DataAccess.csproj" />
+    <ProjectReference Include="..\BulkyStore_Extensions\BulkyStore_Extensions.csproj" />
     <ProjectReference Include="..\BulkyStore_Models\BulkyStore_Models.csproj" />
     <ProjectReference Include="..\BulkyStore_Utility\BulkyStore_Utility.csproj" />
   </ItemGroup>

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BulkyStore_Utility.Extensions
+namespace BulkyStore_Extensions
 {
     public static class DataBaseExtension
     {
@@ -15,7 +15,7 @@ namespace BulkyStore_Utility.Extensions
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("BulkyStoreConnectionString"));
             });
-            
+
             builder.Services.AddIdentity<IdentityUser, IdentityRole>()
             .AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
         }

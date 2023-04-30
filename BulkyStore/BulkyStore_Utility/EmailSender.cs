@@ -1,16 +1,18 @@
 ﻿using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Configuration;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace BulkyStore_Utility
 {
     public class EmailSender : IEmailSender
     {
-        //public string SendGridSecret { get; set; }
+        public string SendGridSecret { get; set; }
 
-        //public EmailSender(IConfiguration _config)
-        //{
-        //    SendGridSecret = _config.GetValue<string>("SendGrid:SecretKey");
-        //}
+        public EmailSender(IConfiguration _config)
+        {
+            SendGridSecret = _config.GetValue<string>("SendGrid:SecretKey");
+        }
 
         public Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
@@ -24,7 +26,6 @@ namespace BulkyStore_Utility
 
             //return client.SendEmailAsync(message);
             return Task.CompletedTask;
-
         }
     }
 }
