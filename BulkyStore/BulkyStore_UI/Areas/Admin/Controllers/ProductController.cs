@@ -5,6 +5,7 @@ using BulkyStore_Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Stripe;
 
 namespace BulkyStore_UI.Areas.Admin.Controllers
 {
@@ -32,6 +33,7 @@ namespace BulkyStore_UI.Areas.Admin.Controllers
             {
                 ProductVM data = new();
                 data.CategoryList = GetCategoryList(_unitOfWork);
+                data.Product = new();
                 return View(data);
             }
             else
@@ -52,19 +54,20 @@ namespace BulkyStore_UI.Areas.Admin.Controllers
                     CategoryList = GetCategoryList(_unitOfWork, product.CategoryId)
                 };
 
+                data.Product = _unitOfWork.Product.Get(u => u.Id == id, includeProperties: "ProductImages");
                 return View(data);
             }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(int? id, ProductVM productVM, IFormFile? file)
+        public IActionResult Upsert(int? id, ProductVM productVM, List<IFormFile> files)
         {
             productVM.CategoryList = GetCategoryList(_unitOfWork, categoryId: productVM.Product.CategoryId);
             if (ModelState.IsValid)
             {
                 
-                if (id == null || id == 0)
+                if (productVM.Product.Id == 0)
                 {
                     var isExists = _unitOfWork.Product.Get(x => x.Title.ToLower() == productVM.Product.Title.ToLower());
                     if (isExists != null)
@@ -72,11 +75,8 @@ namespace BulkyStore_UI.Areas.Admin.Controllers
                         ModelState.AddModelError("Product.Title", "Title must be unique.");
                         return View(productVM);
                     }
-                    productVM.Product.ImageUrl = productVM.Product.ImageUrl == null ? "" : productVM.Product.ImageUrl;
                     _unitOfWork.Product.Add(productVM.Product);
-                    _unitOfWork.Save();
-                    TempData["success"] = "Product create successfully";
-                    
+                    TempData["success"] = "Product create successfully";                    
                 }
                 else
                 {
@@ -87,44 +87,47 @@ namespace BulkyStore_UI.Areas.Admin.Controllers
                         ModelState.AddModelError("Product.Title", "Title must be unique.");
                         return View(productVM);
                     }
-                    productVM.Product.ImageUrl = _unitOfWork.Product.Get(x => x.Id == id).ImageUrl;
-                    _unitOfWork.Product.Update(productVM.Product);
-                    _unitOfWork.Save();
+                    _unitOfWork.Product.Update(productVM.Product);                    
                     TempData["success"] = "Product update successfully";
 
                     
                 }
 
-                if (file != null)
+                _unitOfWork.Save();
+
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                if (files != null)
                 {
 
-                    string wwwRootPath = _webHostEnvironment.WebRootPath;
-                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                    string productPath = @"images\products\product-" + productVM.Product.Id;
-                    string finalPath = Path.Combine(wwwRootPath, productPath);
-
-                    if (!Directory.Exists(finalPath))
-                        Directory.CreateDirectory(finalPath);
-
-                    if (!string.IsNullOrEmpty(productVM.Product.ImageUrl))
+                    foreach (IFormFile file in files)
                     {
-                        var oldImagePath = Path.Combine(wwwRootPath, productVM.Product.ImageUrl.TrimStart('\\'));
-                        if (System.IO.File.Exists(oldImagePath))
+                        string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                        string productPath = @"images\products\product-" + productVM.Product.Id;
+                        string finalPath = Path.Combine(wwwRootPath, productPath);
+
+                        if (!Directory.Exists(finalPath))
+                            Directory.CreateDirectory(finalPath);
+
+                        using (var fileStream = new FileStream(Path.Combine(finalPath, fileName), FileMode.Create))
                         {
-                            System.IO.File.Delete(oldImagePath);
+                            file.CopyTo(fileStream);
                         }
-                    }
 
-                    using (var fileStream = new FileStream(Path.Combine(finalPath, fileName), FileMode.Create))
-                    {
-                        file.CopyTo(fileStream);
-                    }
+                        ProductImage productImage = new()
+                        {
+                            ImageUrl = @"\" + productPath + @"\" + fileName,
+                            ProductId = productVM.Product.Id,
+                        };
 
-                    productVM.Product.ImageUrl = @"\" + productPath + @"\" + fileName;
+                        if (productVM.Product.ProductImages == null)
+                            productVM.Product.ProductImages = new List<ProductImage>();
+
+                        productVM.Product.ProductImages.Add(productImage);
+
+                    }
 
                     _unitOfWork.Product.Update(productVM.Product);
                     _unitOfWork.Save();
-
                 }
                 return RedirectToAction("Index");
             }
@@ -132,7 +135,32 @@ namespace BulkyStore_UI.Areas.Admin.Controllers
 
         }
 
+        public IActionResult DeleteImage(int imageId)
+        {
+            var imageToBeDeleted = _unitOfWork.ProductImage.Get(u => u.Id == imageId);
+            int productId = imageToBeDeleted.ProductId;
+            if (imageToBeDeleted != null)
+            {
+                if (!string.IsNullOrEmpty(imageToBeDeleted.ImageUrl))
+                {
+                    var oldImagePath =
+                                   Path.Combine(_webHostEnvironment.WebRootPath,
+                                   imageToBeDeleted.ImageUrl.TrimStart('\\'));
 
+                    if (System.IO.File.Exists(oldImagePath))
+                    {
+                        System.IO.File.Delete(oldImagePath);
+                    }
+                }
+
+                _unitOfWork.ProductImage.Remove(imageToBeDeleted);
+                _unitOfWork.Save();
+
+                TempData["success"] = "Deleted successfully";
+            }
+
+            return RedirectToAction(nameof(Upsert), new { id = productId });
+        }
 
         public IActionResult Create()
         {
@@ -254,7 +282,7 @@ namespace BulkyStore_UI.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
+            List<BulkyStore_Models.Models.Product> objProductList = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
             return Json(new { data = objProductList });
         }
 

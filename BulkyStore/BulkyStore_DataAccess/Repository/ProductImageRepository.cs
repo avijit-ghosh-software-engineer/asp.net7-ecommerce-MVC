@@ -16,7 +16,7 @@ namespace BulkyStore_DataAccess.Repository
 
         public void Update(ProductImage obj)
         {
-            //_db.ProductImages.Update(obj);
+            _db.ProductImages.Update(obj);
         }
     }
 }
